@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 
 import com.jpamapping.domain.Customer;
 //import com.jpamapping.domain.Product;
@@ -29,9 +30,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 //
 //	@Query("SELECT  Product p FROM Customer c Join c.product.id = productId ")
 //	public Customer getProductById( Product productId);
+//	 @Query("SELECT c FROM Costumer  c join c.products p where p.id=id ")
+//	 public List<Product> findProductByUserId(@Param("id") Integer CudtomerId);
 
 
-	public Object getCustomersProductById(int id);
+//    @Query("SELECT p.productName,p.price,p.quantity FROM Customer c join c.products p ")
+//	public Customer getCustomersProductByIdCustomer(Customer customer);
 
 
 	

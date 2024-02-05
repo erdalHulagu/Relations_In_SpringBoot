@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import com.jpamapping.repository.CustomerRepository;
 import com.jpamapping.repository.ProductRepository;
 import com.jpamapping.request.OrderRequest;
 import com.jpamapping.response.OrderResponse;
+import com.jpamapping.service.OrderService;
 
 @RestController
 public class OrderController {
@@ -29,6 +31,9 @@ public class OrderController {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	
 	@PostMapping("/placeOrder")
@@ -51,7 +56,7 @@ public class OrderController {
 		
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity <Customer> findById(@PathVariable Integer id){
+	public ResponseEntity <Customer> findCustomerById(@PathVariable Integer id){
 		
 		Customer customer= customerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format("Customer not found with id"+id)));
 		
@@ -89,20 +94,37 @@ public class OrderController {
 //		return ResponseEntity.ok(product);
 		return ResponseEntity.ok(product);
 	}
+//	@GetMapping("/customer/{id}")
+//	public ResponseEntity< Customer> getProductByCutomer(@RequestBody OrderRequest orderRequest, @PathVariable Integer id){
+//		ResponseEntity<Product> product=	getProductById(id);
+//		
+//	
+//		
+//  ResponseEntity<Customer> customer= findCustomerById(orderRequest.getCustomer().getProduct().getId());
+//  
+//  if (customer.getBody().getProduct().getId()!=product.getBody().getId()) {
+//	  
+//	  throw new 	ResourceNotFoundException(String.format("Product not found  id with "+orderRequest.getCustomer().getName()));
+//}
+//	
+//		return ResponseEntity.ok(product) ;
+//	}
+
 	@GetMapping("/customer/{id}")
-	public ResponseEntity<Boolean> getProductByCutomer(@RequestBody OrderRequest orderRequest, @PathVariable Integer productId){
-		Product product=	productRepository.findById(productId).orElseThrow(()->new ResourceNotFoundException(String.format("Product not found  id with "+ productId)));
+	public ResponseEntity<Product> getProductByCutomer( @PathVariable Integer id, @RequestBody Customer customerId){
+	
+		Customer customer= customerRepository.findById(customerId.getId()).orElseThrow(()->new ResourceNotFoundException(String.format("Customer not found with id"+customerId)));
 		
-boolean	customer=customerRepository.findById(orderRequest.getCustomer().getProduct().getId()).equals(product.getId());
 		
-	if (customer!=) {
+		Product product= productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format("Customer not found with id"+id)));
 		
-	        throw new 	ResourceNotFoundException(String.format("Product not found  id with "+productId));
-	};
+		if (customer.getProducts().contains(product)) {
+			
+		}
 		
-		return ResponseEntity.ok(customer) ;
+return ResponseEntity.ok(product);
+		
 	}
-		
 //	Customer customer=	customerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format("Product not found  id with "+ id)));
 //	
 ////     ResponseEntity<Product> product= getProductById(productId);
@@ -115,6 +137,10 @@ boolean	customer=customerRepository.findById(orderRequest.getCustomer().getProdu
 //		return ResponseEntity.ok(customer);
 //	}
 
+
+
+};
+
 	
 
-}
+
