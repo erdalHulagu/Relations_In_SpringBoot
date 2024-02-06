@@ -33,6 +33,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 //	 @Query("SELECT c FROM Costumer  c join c.products p where p.id=id ")
 //	 public List<Product> findProductByUserId(@Param("id") Integer CudtomerId);
 
+	@Query("SELECT new com.jpamapping.response.OrderResponse(c.name, p.productName, p.price, p.quantity) FROM Customer c JOIN c.products p WHERE c.id = :id")
+	public List<OrderResponse> findProductByCustomerId(@Param("id") Integer id);
+
+	
 
 //    @Query("SELECT p.productName,p.price,p.quantity FROM Customer c join c.products p ")
 //	public Customer getCustomersProductByIdCustomer(Customer customer);

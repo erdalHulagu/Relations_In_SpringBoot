@@ -110,7 +110,7 @@ public class OrderController {
 //		return ResponseEntity.ok(product) ;
 //	}
 
-	@GetMapping("/customer/{id}")
+	@GetMapping("/customerew/{id}")
 	public ResponseEntity<Product> getProductByCutomer( @PathVariable Integer id, @RequestBody Customer customerId){
 	
 		Customer customer= customerRepository.findById(customerId.getId()).orElseThrow(()->new ResourceNotFoundException(String.format("Customer not found with id"+customerId)));
@@ -125,17 +125,15 @@ public class OrderController {
 return ResponseEntity.ok(product);
 		
 	}
-//	Customer customer=	customerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(String.format("Product not found  id with "+ id)));
-//	
-////     ResponseEntity<Product> product= getProductById(productId);
-//                                
-//                                if (customer.getProduct().getId()!=productId) {
-//									return null;
-//								}
-//   
-//
-//		return ResponseEntity.ok(customer);
-//	}
+	@GetMapping("/customer/{id}")
+	public ResponseEntity<List<OrderResponse>> getProductByCutomerId( @PathVariable Integer id ){
+		
+		List<OrderResponse> customer= customerRepository.findProductByCustomerId(id);
+		
+	return	ResponseEntity.ok(customer);
+		
+	}
+
 
 
 
